@@ -14,6 +14,20 @@ describe("creating/deleting from the array", () => {
         console.log(ChannelManager)
         expect(x).toBe(1)
     })
+
+    test("Checking the channel before delete", () => {
+
+        let manager = new ChannelManager()
+        let exceptionThrown = false
+
+        try {
+            manager.deleteChannel(766)
+        }
+        catch (e) {
+            exceptionThrown = true
+        }
+        expect(exceptionThrown).toBe(false)
+    })
     test("Adding duplicate channel", () => {
         let exceptionThrown = false
         try {
@@ -78,7 +92,7 @@ describe("creating/deleting from the array", () => {
         let currentchannel = manager.nextSubscribedChannel(233)
         expect(currentchannel).toBe(210)
     })
-       test('Getting count subscribed channel', () => {
+    test('Getting count subscribed channel', () => {
         let manager = new ChannelManager()
         let channel = new TVChannel(233, 'Future International', 4, 'General')
         let channel2 = new TVChannel(210, 'Adala TV', 8, 'General')
@@ -107,21 +121,7 @@ describe("creating/deleting from the array", () => {
         let currentchannel = manager.totalSubscribedCost()
         expect(currentchannel).toBe(13)
     })
-    test('Getting previous subscribed channel total cost', () => {
-        let manager = new ChannelManager()
-
-        let channel = new TVChannel(233, 'Future International', 4, 'General')
-        let channel2 = new TVChannel(210, 'Adala TV', 8, 'General')
-        let channel3 = new TVChannel(313, 'Cartoon Network', 1, 'Kids')
-        manager.addChannel(channel)
-        manager.addChannel(channel2)
-        manager.addChannel(channel3)
-        manager.subscribeChannel(233)
-        manager.subscribeChannel(210)
-        manager.subscribeChannel(313)
-        let currentchannel = manager.totalSubscribedCost()
-        expect(currentchannel).toBe(13)
-    })
+    
     test('Getting subscribed list length', () => {
         let manager = new ChannelManager()
 
@@ -137,7 +137,7 @@ describe("creating/deleting from the array", () => {
         let currentchannel = manager.countSubcribedChannels()
         expect(currentchannel).toBe(3)
     })
-    
-    
+
+
 
 })
