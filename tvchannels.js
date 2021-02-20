@@ -14,11 +14,20 @@ class DuplicateChannelException extends Error {
     }
 }
 
+class ChannelNotFound extends Error {
+    constructor(message) {
+        super(message)
+        this.name = "Channel is not found"
+    }
+}
+
 class ChannelManager {
     #allChannels
     constructor() {
         this.#allChannels = []
     }
+    
+    
 
     // Add a new channel to the management system.  If a channel already exists with the
     // same channel number this method will throw a DuplicateChannelException.
@@ -33,6 +42,17 @@ class ChannelManager {
     // Remove a channel from the management system.  If the channel does not exist, the
     // method will throw a ChannelNotFound exception.
     deleteChannel(chNum) {
+
+        let foundIndex = this.#allChannels.findIndex(x => x.channel === chNum)
+        console.log((foundIndex))
+
+        //Channel does not exist
+        if (!foundIndex) {
+
+            throw new ChannelNotFound(`Channel not found`)
+
+        }
+        this.#allChannels.splice(foundIndex, 1)
 
     }
 
@@ -95,7 +115,7 @@ class ChannelManager {
             let foundChannel = this.#allChannels.find((x) => x.channel == this.#subscribeChannels[i])
             total += foundChannel.price
         }
-        
+
         return total
     }
 
@@ -106,6 +126,22 @@ class ChannelManager {
     // NoSubscribedChannels.
     nextSubscribedChannel(currentCh) {
 
+        let find = this.#subscribeChannels.includes(currentCh)
+        if (!find) {
+            throw new ChannelNotFound('Channel not found ')
+
+        }
+
+        let lastNum = this.#subscribeChannels[this.#subscribeChannels.length - 1]
+        if (lastNum === currentCh) {
+            return this.#subscribeChannels[0]
+        }
+        else {
+            let currentChIndex = this.#subscribeChannels.indexOf(currentCh)
+            let nextSubChannel = this.#subscribeChannels[currentChIndex + 1]
+            return nextSubChannel
+        }
+
     }
 
     // Returns the previous subscribed channel (in order).  Suppose you are
@@ -115,9 +151,23 @@ class ChannelManager {
     // NoSubscribedChannels.
     previousSubscribedChannel(currentCh) {
 
+        let find = this.#subscribeChannels.includes(currentCh)
+        if (!find) {
+            throw new Error('Channel not found ')
+        }
+        let firstNum = this.#subscribeChannels[0]
+        if (firstNum === currentCh) {
+            return this.#subscribeChannels[this.#subscribeChannels.length - 1]
+        }
+        else {
+            let currentChIndex = this.#subscribeChannels.indexOf(currentCh)
+            let prevSubChannel = this.#subscribeChannels[currentChIndex - 1]
+            return prevSubChannel
+        }
     }
 
 }
+
 
 module.exports = {
     TVChannel,
