@@ -23,8 +23,10 @@ class ChannelNotFound extends Error {
 
 class ChannelManager {
     #allChannels
+    #subscribeChannels
     constructor() {
         this.#allChannels = []
+        this.#subscribeChannels = []
     }
 
 
