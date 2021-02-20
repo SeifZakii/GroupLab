@@ -10,7 +10,7 @@ class TVChannel {
 class DuplicateChannelException extends Error {
     constructor(message) {
         super(message)
-        this.name  = 'DuplicateChannelException'
+        this.name = 'DuplicateChannelException'
     }
 }
 
@@ -33,7 +33,7 @@ class ChannelManager {
     // Remove a channel from the management system.  If the channel does not exist, the
     // method will throw a ChannelNotFound exception.
     deleteChannel(chNum) {
-        
+
     }
 
     // Returns the number of channels.
@@ -54,22 +54,49 @@ class ChannelManager {
     // No exception is thrown.
     subscribeChannel(chNum) {
 
+        let x = new Boolean(true);
+        let foundChannel = this.#allChannels.find((x) => x.channel == chNum)
+        let foundsubscribe = this.#subscribeChannels.includes(chNum)
+        //Not subscribed
+        if (foundChannel && !foundsubscribe) {
+
+            this.#subscribeChannels.push(chNum)
+            x = false
+
+        }
+        //Already subscirbed
+        else {
+            x = true
+        }
+
+        return x
+
     }
 
     // Unsubscribe from the channel.  If the channel is not currently subscribed this
     // operation is ignored.
     unsubscribeChannel(chNum) {
 
+        let foundIndex = this.#subscribeChannels.indexOf(chNum)
+        this.#subscribeChannels.splice(foundIndex, 1)
     }
-    
+
     // Return the number of currently subscribed channels
     countSubcribedChannels() {
-
+        return this.#subscribeChannels.length
     }
 
     // Return the cost (total) of all currently subscribed channels
     totalSubscribedCost() {
 
+        let total = 0;
+
+        for (let i = 0; i < this.#subscribeChannels.length; i++) {
+            let foundChannel = this.#allChannels.find((x) => x.channel == this.#subscribeChannels[i])
+            total += foundChannel.price
+        }
+        
+        return total
     }
 
     // Returns the next subscribed channel (in order).  Suppose you are
