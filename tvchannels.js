@@ -26,8 +26,8 @@ class ChannelManager {
     constructor() {
         this.#allChannels = []
     }
-    
-    
+
+
 
     // Add a new channel to the management system.  If a channel already exists with the
     // same channel number this method will throw a DuplicateChannelException.
@@ -69,6 +69,20 @@ class ChannelManager {
         return this.#allChannels.find((x) => x.channel == chNum)
     }
 
+    getAllChannels() {
+
+        return this.#allChannels.filter(value => value)
+
+    }
+
+    getSubChannels() {
+
+        return this.#subscribeChannels.filter(value => value)
+
+    }
+
+
+
     // Add the channel number to the subscriptions.  The function returns true if
     // the operation was successful and false if the channel was not already subscribed.
     // No exception is thrown.
@@ -90,6 +104,12 @@ class ChannelManager {
         }
 
         return x
+
+    }
+    //Add the subscribed channels
+    addSubChannel(ch) {
+
+        this.#subscribeChannels.push(ch)
 
     }
 
