@@ -138,6 +138,41 @@ describe("creating/deleting from the array", () => {
         expect(currentchannel).toBe(3)
     })
 
+    test('Subscribing to Channel', () => {
+        let manager = new ChannelManager()
+        let channel = new TVChannel(210, 'Adala TV', 8, 'General')
+        manager.addChannel(channel)
+        manager.subscribeChannel(210)
+        expect(manager.countSubcribedChannels()).toBe(1)
+    })
+    
+    
+    test('Subscribing to Subscribed Channel', () => {
+        let manager = new ChannelManager()
+        let channel = new TVChannel(210, 'Adala TV', 8, 'General')
+        manager.addChannel(channel)
+        manager.subscribeChannel(210)
+        let result = manager.subscribeChannel(210)
+        expect(result).toBe(true)
+    })
+    test('Unsubscribing to Channel', () => {
+        let manager = new ChannelManager()
+        let channel = new TVChannel(313, 'Cartoon Network', 1, 'Kids')
+        manager.addChannel(channel)
+        manager.subscribeChannel(210)
+        manager.unsubscribeChannel(210)
+        expect(manager.countSubcribedChannels()).toBe(0)
+    })
+    
+    test('Unsubscribing Non-Existent Channel', () => {
+        let manager = new ChannelManager()
+        let channel = new TVChannel(313, 'Cartoon Network', 1, 'Kids')
+        manager.addChannel(channel)
+        manager.subscribeChannel(313)
+        manager.unsubscribeChannel(210)
+        expect(manager.countSubcribedChannels()).toBe(0)
+    })
+
 
 
 })
