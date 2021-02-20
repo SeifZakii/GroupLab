@@ -46,7 +46,7 @@ class ChannelManager {
     // ask again for the same TV channel, you will not see the change that you just made.  If the
     // channel does not exist you will get back undefined.
     getChannel(chNum) {
-        
+        return this.#allChannels.find((x) => x.channel == chNum)
     }
 
     // Add the channel number to the subscriptions.  The function returns true if
